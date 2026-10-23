@@ -641,11 +641,13 @@ export class Webpage extends Attachment
 
 		if (link.startsWith("#"))
 		{
-			let headerText = (linkEl?.getAttribute("data-href") ?? link).replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_").substring(1);
-			
+//			let headerText = (linkEl?.getAttribute("data-href") ?? link).replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_").substring(1);
+			let headerText = (linkEl?.getAttribute("data-href") ?? link).replaceAll(":", "").substring(1);
+
 			// Only apply numbering if this header is in the headerMap (i.e., it's an actual header)
 			if (this.headerMap.has(headerText)) {
-				let hrefValue = `#${headerText}_${this.headerMap.get(headerText)}`;
+//				let hrefValue = `#${headerText}_${this.headerMap.get(headerText)}`;
+				let hrefValue = `#${headerText}`;
 				if (!this.exportOptions.relativeHeaderLinks)
 					hrefValue = this.targetPath + hrefValue;
 				return hrefValue;
@@ -670,11 +672,13 @@ export class Webpage extends Attachment
 
 		if (attachment.targetPath.extensionName == "html")
 		{
-			const headerText = hash.replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_").substring(1);
+//			const headerText = hash.replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_").substring(1);
+			const headerText = hash.replaceAll(":", "").substring(1);
 			// Only apply numbering if this header is in the headerMap
 			if (this.headerMap.has(headerText)) {
 				const headerId = this.headerMap.get(headerText);
-				hash = `#${headerText}_${headerId}`;
+//				hash = `#${headerText}_${headerId}`;
+				hash = `#${headerText}`;
 			}
 			// Otherwise keep the hash unchanged (for footnotes, etc.)
 		}
@@ -689,7 +693,8 @@ export class Webpage extends Attachment
 		this.pageDocument
 			.querySelectorAll("h1, h2, h3, h4, h5, h6")
 			.forEach((headerEl) => {
-				let headerText = (headerEl.getAttribute("data-heading") ?? headerEl.textContent ?? "").replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_");
+//				let headerText = (headerEl.getAttribute("data-heading") ?? headerEl.textContent ?? "").replaceAll(" ", "_").replaceAll(":", "").replaceAll("__", "_");
+				let headerText = (headerEl.getAttribute("data-heading") ?? headerEl.textContent ?? "").replaceAll(":", "");
 				let headerId = this.headerMap.get(headerText);
 				if (headerId) {
 					headerId = `${+headerId + 1}`;
@@ -701,7 +706,8 @@ export class Webpage extends Attachment
 
 				headerEl.setAttribute(
 					"id",
-					`${headerText}_${headerId}`
+//					`${headerText}_${headerId}`
+					headerText
 				);
 			});
 

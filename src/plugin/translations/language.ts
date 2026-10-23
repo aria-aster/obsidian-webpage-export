@@ -4,6 +4,7 @@ import { language as en } from './en';
 import { language as it } from './it';
 import { language as uk } from './uk';
 import { language as pt } from './pt';
+import { language as ja } from './ja';
 
 export interface i18n
 {
@@ -264,6 +265,7 @@ export let translations: { [key: string]: i18n } =
 	"it": it, // Italian
 	"uk": uk, // Ukrainian
 	"pt": pt, // Brazilian Portuguese
+	"ja": ja, // Japanese
 };
 
 export let i18n: i18n = getLanguage();

@@ -198,7 +198,6 @@ export class Website
 				this.fileTree.id = "file-explorer";
 				const tempContainer = document.createElement("div");
 				await this.fileTree.generate(tempContainer);
-				const data = tempContainer.innerHTML;
 				
 				// extract file order and apply to attachments
 				this.index.attachmentsShownInTree.forEach((file) => 
@@ -209,6 +208,25 @@ export class Website
 					console.log("File tree order for " + file.sourcePathRootRelative + ": " + file.treeOrder);
 				});
 
+				// "image" Excluded from file-tree.html begin
+				const folderItems = tempContainer.querySelectorAll(".tree-item.nav-folder");
+				folderItems.forEach((folderItem) => {
+					const folderLink = folderItem.querySelector(".tree-item-self");
+
+					if (!folderLink)
+						return;
+
+					const dataPath = folderLink.getAttribute("data-path");
+
+					if (!dataPath)
+						return;
+
+					if (dataPath === "image" || dataPath.endsWith("/image")) {
+						folderItem.remove();
+					}
+				});
+				// "image" Excluded from file-tree.html end
+				const data = tempContainer.innerHTML;
 				tempContainer.remove();
 				this.fileTreeAsset = new AssetLoader("file-tree.html", data, null, AssetType.HTML, InlinePolicy.Auto, true, Mutability.Temporary);
 			}
